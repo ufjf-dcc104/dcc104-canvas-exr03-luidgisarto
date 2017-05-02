@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>DCC 104 - Flappy</title>
+    <script src="sprite.js" charset="utf-8"></script>
+    <script src="level.js" charset="utf-8"></script>
+</head>
+
+<body>
+    <h1>DCC 104 - Flappy Bird</h1>
+    <canvas id="canvas" width="600" height="500"></canvas>
+</body>
+
+</html>
+
+<script>
+    var tela = document.getElementsByTagName("canvas")[0];
+    var ctx = canvas.getContext("2d");
+    var bird = new Sprite(50, 245, 40, 40, "yellow");
+    bird.g = 700;
+    bird.vy = 50;
+    var dt = 1 / 50;
+    var level = new Level();
+
+    level.inicializar(tela);
+    desenha();
+
+    function desenha() {
+        requestAnimationFrame(desenha);
+        inicializar(ctx);
+        bird.mover(dt);
+        level.mover(dt);
+        level.desenhar(ctx);
+        bird.desenhar(ctx);
+        habilitarControles();
+    }
+
+    function habilitarControles() {
+        addEventListener("keypress", function (e) {
+            switch (e.keyCode) {
+                case 32:
+                    bird.vy = -300;
+                    break;
+                default:
+            }
+        });
+    }
+
+    function inicializar(ctx) {
+        ctx.font = "20px Arial";
+        ctx.fillStyle = "black";
+
+        //Desenha borda canvas
+        ctx.clearRect(0, 0, tela.width, tela.height);
+        ctx.strokeRect(0, 0, tela.width, tela.height);
+    }
+
+</script>
