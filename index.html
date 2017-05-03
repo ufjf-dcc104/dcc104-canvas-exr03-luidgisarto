@@ -6,11 +6,12 @@
     <title>DCC 104 - Flappy</title>
     <script src="sprite.js" charset="utf-8"></script>
     <script src="level.js" charset="utf-8"></script>
+    <script src="images.js" charset="utf-8"></script>
 </head>
 
 <body>
     <h1>DCC 104 - Flappy Bird</h1>
-    <canvas id="canvas" width="600" height="500"></canvas>
+    <canvas id="canvas" width="800" height="500" style="background-image: url('images/fundo.png');"></canvas>
 </body>
 
 </html>
@@ -18,12 +19,16 @@
 <script>
     var tela = document.getElementsByTagName("canvas")[0];
     var ctx = canvas.getContext("2d");
-    var bird = new Sprite(50, 245, 40, 40, "yellow");
+
+    var bird = new Sprite(50, 245, 50, 50, "yellow");
     bird.g = 700;
     bird.vy = 50;
     var dt = 1 / 50;
     var level = new Level();
-
+    var il = new ImageLoader();
+    var pontos = 0;
+    il.inicializar();
+    level.imageLib = il;
     level.inicializar(tela);
     desenha();
 
@@ -33,8 +38,25 @@
         bird.mover(dt);
         level.mover(dt);
         level.desenhar(ctx);
-        bird.desenhar(ctx);
+        bird.desenhar(ctx, il.images["bird"]);
         habilitarControles();
+
+        reiniciarParede();        
+
+        // gameOver();
+    }
+
+    function reiniciarParede(){
+        var ultimaParede = level.paredes[level.paredes.length-1];
+        if(bird.x > ultimaParede.x){
+            level.inicializar(tela);
+        }
+    }
+
+    function gameOver(){
+        if(level.colidiuComPassaro(bird)){
+            alert('Você perdeu, sua pontuação foi: '+ pontos);
+        }
     }
 
     function habilitarControles() {
@@ -55,6 +77,8 @@
         //Desenha borda canvas
         ctx.clearRect(0, 0, tela.width, tela.height);
         ctx.strokeRect(0, 0, tela.width, tela.height);
+        
+        ctx.fillText("Pontos:" + pontos, 10,  50);
     }
 
 </script>
