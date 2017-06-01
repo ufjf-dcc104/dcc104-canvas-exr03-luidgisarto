@@ -1,6 +1,6 @@
 function Level() {
     this.paredes = [];
-    this.total = 10;
+    this.total = 5;
 }
 
 Level.prototype.inicializar = function (tela) {
@@ -11,8 +11,13 @@ Level.prototype.inicializar = function (tela) {
 
         var pX = 200+tamanho * i;
         var vX = -100;
-        var paredeCima = new Sprite(pX, 0, 40, parseInt(Math.random() * 300 + espaco / 500), "green", "paredeBaixo");
-        var paredeBaixo = new Sprite(pX, 500, 40, -(500 - paredeCima.height) + espaco, "green", "paredeCima");
+
+         var paredeCimaHeight = Math.floor(Math.random() * (420)) * 2;
+        // var paredeCima = new Sprite(pX, 0, 40, parseInt(Math.random() * 300 + espaco / 500), "green", "paredeBaixo");
+        
+
+        var paredeCima = new Sprite(pX, 0, 40, paredeCimaHeight, "green", "paredeBaixo");
+        var paredeBaixo = new Sprite(pX, 500, 40, 1000-paredeCima.height - espaco*2, "green", "paredeCima");
         paredeCima.vx = vX; 
         paredeBaixo.vx = vX; 
         this.paredes.push(paredeCima);

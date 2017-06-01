@@ -20,7 +20,9 @@
     var tela = document.getElementsByTagName("canvas")[0];
     var ctx = canvas.getContext("2d");
 
-    var bird = new Sprite(50, 245, 50, 50, "yellow");
+    var dotDebugger = new Sprite(12.5, 25, 12.5, 12.5, "black");
+
+    var bird = new Sprite(150, 245, 50, 50, "yellow");
     bird.g = 700;
     bird.vy = 50;
     var dt = 1 / 50;
@@ -37,13 +39,16 @@
         inicializar(ctx);
         bird.mover(dt);
         level.mover(dt);
+        dotDebugger.mover(dt);
         level.desenhar(ctx);
         bird.desenhar(ctx, il.images["bird"]);
+
+        dotDebugger.desenhar(ctx, il.images["dotDebugger"]);
         habilitarControles();
 
         reiniciarParede();        
 
-        // gameOver();
+        gameOver();
     }
 
     function reiniciarParede(){
@@ -55,7 +60,7 @@
 
     function gameOver(){
         if(level.colidiuComPassaro(bird)){
-            alert('Você perdeu, sua pontuação foi: '+ pontos);
+            console.log('Você perdeu, sua pontuação foi: '+ pontos);
         }
     }
 

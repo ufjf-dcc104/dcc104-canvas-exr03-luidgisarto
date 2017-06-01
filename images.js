@@ -12,4 +12,5 @@ ImageLoader.prototype.inicializar = function (){
     this.load("bird", "images/bird.png");
     this.load("paredeCima", "images/pipeCima.png");
     this.load("paredeBaixo", "images/pipeBaixo.png");
+    this.load("dotDebugger", "images/dotDebugger.png");
 }
