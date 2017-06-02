@@ -14,7 +14,7 @@ Sprite.prototype.desenhar = function (ctx, img) {
     ctx.fillStyle = this.color;
     ctx.lineWidth =2;
     ctx.drawImage(img, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
-    ctx.strokeRect(this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+    // ctx.strokeRect(this.x-this.width/2, this.y-this.height/2, this.width, this.height);
 };
 
 Sprite.prototype.mover = function (dt) {
@@ -24,9 +24,16 @@ Sprite.prototype.mover = function (dt) {
 }
 
 Sprite.prototype.colidiu = function (alvo) {
-  if(this.y + this.height/2 < alvo.y) return false;
-  if(this.y > (alvo.y + alvo.height/2))return false;
-  if(this.x + this.width/2 < alvo.x) return false;
-  if(this.x > (alvo.x + alvo.width/2)) return false;
+    // return (this.x + this.width/2) > alvo.x
+    // && this.x < (alvo.x + alvo.width/2)
+    // && (this.y + this.height/2) > alvo.y
+    // && this.y < (alvo.y + alvo.height/2);
+
+  if(this.x + this.width/2 < alvo.x-alvo.width/2) return false;
+  if(this.x -this.width/2 > alvo.x+alvo.width/2) return false;
+  if(this.y + this.height/2 < alvo.y-alvo.height/2) return false;
+  if(this.y-this.height/2 > alvo.y+alvo.height/2) return false;
   return true;  
 };
+
+

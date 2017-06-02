@@ -20,47 +20,71 @@
     var tela = document.getElementsByTagName("canvas")[0];
     var ctx = canvas.getContext("2d");
 
-    var dotDebugger = new Sprite(12.5, 25, 12.5, 12.5, "black");
-
     var bird = new Sprite(150, 245, 50, 50, "yellow");
-    bird.g = 700;
-    bird.vy = 50;
-    var dt = 1 / 50;
+    bird.g = 500;
+    bird.vy = 20;
+    var dt = 1 / 60;
     var level = new Level();
     var il = new ImageLoader();
     var pontos = 0;
+    var colide = false;
     il.inicializar();
     level.imageLib = il;
     level.inicializar(tela);
     desenha();
+    habilitarControles();
 
     function desenha() {
         requestAnimationFrame(desenha);
         inicializar(ctx);
         bird.mover(dt);
         level.mover(dt);
-        dotDebugger.mover(dt);
         level.desenhar(ctx);
         bird.desenhar(ctx, il.images["bird"]);
-
-        dotDebugger.desenhar(ctx, il.images["dotDebugger"]);
-        habilitarControles();
-
-        reiniciarParede();        
-
-        gameOver();
+        reiniciarParede();
+        gameOver();  
+        pontuar();      
     }
 
-    function reiniciarParede(){
-        var ultimaParede = level.paredes[level.paredes.length-1];
-        if(bird.x > ultimaParede.x){
+    function pontuar(){
+        for (var i = 1; i < level.paredes.length; i++) {
+            var paredeCima;
+            var paredeBaixo;
+            if(i == level.paredes.length){
+                paredeCima = level.paredes[i];
+                paredeBaixo = level.paredes[i];
+            }
+            else{
+                paredeCima = level.paredes[i-1];
+                paredeBaixo = level.paredes[i-1];
+            }
+
+            if(parseInt(bird.x)  === parseInt(paredeCima.x)){
+                if(parseInt(bird.y) <= parseInt(paredeCima.height) 
+                && parseInt(bird.y) <= parseInt(paredeBaixo.height)){
+                    pontos++;
+                }
+            }
+        }
+    }
+
+    function reiniciarParede() {
+        var ultimaParede = level.paredes[level.paredes.length - 1];
+        if (bird.x > ultimaParede.x) {
             level.inicializar(tela);
         }
     }
 
-    function gameOver(){
-        if(level.colidiuComPassaro(bird)){
-            console.log('Você perdeu, sua pontuação foi: '+ pontos);
+    function gameOver() {
+        if (level.colidiuComPassaro(bird)) {
+            colide = true;
+            level.paredes= [];
+            level.inicializar(tela);
+            console.log('Você perdeu, sua pontuação foi: ' + pontos);
+            pontos = 0;
+        }
+        else{
+            colide = false;
         }
     }
 
@@ -68,7 +92,7 @@
         addEventListener("keypress", function (e) {
             switch (e.keyCode) {
                 case 32:
-                    bird.vy = -300;
+                    bird.vy = -200;
                     break;
                 default:
             }
@@ -82,8 +106,8 @@
         //Desenha borda canvas
         ctx.clearRect(0, 0, tela.width, tela.height);
         ctx.strokeRect(0, 0, tela.width, tela.height);
-        
-        ctx.fillText("Pontos:" + pontos, 10,  50);
+
+        ctx.fillText("Pontos:" + pontos, 10, 50);
     }
 
 </script>
