@@ -46,24 +46,15 @@
         pontuar();      
     }
 
-    function pontuar(){
-        for (var i = 1; i < level.paredes.length; i++) {
-            var paredeCima;
-            var paredeBaixo;
-            if(i == level.paredes.length){
-                paredeCima = level.paredes[i];
-                paredeBaixo = level.paredes[i];
-            }
-            else{
-                paredeCima = level.paredes[i-1];
-                paredeBaixo = level.paredes[i-1];
-            }
-
-            if(parseInt(bird.x)  === parseInt(paredeCima.x)){
-                if(parseInt(bird.y) <= parseInt(paredeCima.height) 
-                && parseInt(bird.y) <= parseInt(paredeBaixo.height)){
-                    pontos++;
-                }
+    function pontuar() {
+        for (var i = 1; i < level.paredes.length; i++)
+        {
+            if (level.paredes[i].x <= 150 && !level.paredes[i].checked && level.paredes[i].imgkey == 'paredeCima')
+            {
+                // console.log(level.paredes);
+                pontos++;
+                level.paredes[i].checked = true;
+                // console.log("+ 1");
             }
         }
     }
@@ -85,6 +76,12 @@
         }
         else{
             colide = false;
+        }
+    }
+
+    function atingiuLimites(){
+        if(bird.y > tela.height || bird.y < 0){
+            return true;
         }
     }
 

@@ -8,6 +8,7 @@ function Sprite(x, y, w, h, cor, imgkey) {
     this.imgkey = imgkey;
     this.color = cor;
     this.g = 0;
+    this.checked = false;
 }
 
 Sprite.prototype.desenhar = function (ctx, img) {
